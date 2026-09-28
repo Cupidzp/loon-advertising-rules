@@ -24,11 +24,11 @@ jobs:
             --output /tmp/Advertising_Domain.list
           cp /tmp/Advertising.list Advertising.list
           sed '/^#/d; /^[[:space:]]*$/d' /tmp/Advertising_Domain.list >> Advertising.list
-          cp /tmp/Advertising_Domain.list Advertising_Domain.list
+          rm -f Advertising_Domain.list
 
       - name: Commit changes
         run: |
-          git add Advertising.list Advertising_Domain.list
+          git add -A -- Advertising.list Advertising_Domain.list
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
