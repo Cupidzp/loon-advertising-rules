@@ -19,10 +19,13 @@ jobs:
           curl --fail --location --silent --show-error --retry 3 \
             "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising.list" \
             --output Advertising.list
+          curl --fail --location --silent --show-error --retry 3 \
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising_Domain.list" \
+            --output Advertising_Domain.list
 
       - name: Commit changes
         run: |
-          git add Advertising.list
+          git add Advertising.list Advertising_Domain.list
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
