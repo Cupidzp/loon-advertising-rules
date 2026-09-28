@@ -39,7 +39,7 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add -A -- Advertising.list Advertising_Domain.list Apple.list Apple_Domain.list
+          git add -A
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
