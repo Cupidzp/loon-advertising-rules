@@ -1,0 +1,33 @@
+name: Sync Advertising rules
+
+on:
+  schedule:
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download latest rules
+        run: |
+          curl --fail --location --silent --show-error --retry 3 \
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising.list" \
+            --output Advertising.list
+
+      - name: Commit changes
+        run: |
+          git add Advertising.list
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync Advertising rules"
+          git push
