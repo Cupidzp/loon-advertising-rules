@@ -14,14 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download latest rules
+      - name: Download and combine rules
         run: |
           curl --fail --location --silent --show-error --retry 3 \
             "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising.list" \
-            --output Advertising.list
+            --output /tmp/Advertising.list
           curl --fail --location --silent --show-error --retry 3 \
             "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Advertising/Advertising_Domain.list" \
-            --output Advertising_Domain.list
+            --output /tmp/Advertising_Domain.list
+          cp /tmp/Advertising.list Advertising.list
+          sed '/^#/d; /^[[:space:]]*$/d' /tmp/Advertising_Domain.list >> Advertising.list
+          cp /tmp/Advertising_Domain.list Advertising_Domain.list
 
       - name: Commit changes
         run: |
